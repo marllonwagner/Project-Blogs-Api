@@ -14,13 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     { 
       timestamps: false,
-      tableName: 'Users',
+      tableName: 'users',
       underscored: true,
     },
   );
 
   User.associate = (models) => {
-    User.hasMany(models.blogPosts, { foreignKey: 'id', as: 'blog_posts' });
+    User.hasMany(models.BlogPosts, { foreignKey: 'id', as: 'blog_posts' });
   };
 
   return User;

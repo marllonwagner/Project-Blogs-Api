@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       createdAt: 'published',
       updatedAt: 'updated',
-      tableName: 'Blog_posts',
+      tableName: 'blog_posts',
       underscored: true,
     },
   );
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
   BlogPosts.associate = (models) => {
     BlogPosts.belongsToMany(models.User, { foreignKey: 'user_id', as: 'users' });
 
-    BlogPosts.hasMany(models.postsCategories, { foreignKey: 'id', as: 'posts_categories' });
+    BlogPosts.hasMany(models.PostsCategories, { foreignKey: 'id', as: 'posts_categories' });
   };
 
   return BlogPosts;
