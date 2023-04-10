@@ -21,7 +21,9 @@ displayName,
 };
 
 const getAllUsers = async () => {
-  const allUsers = await User.findAll();
+  const allUsers = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
   if (!allUsers.length) {
     return ({ message: 'Nenhum usuário encontrado' });
   }

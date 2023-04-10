@@ -8,16 +8,24 @@ const tokenGenerate = (email, name, id) => {
   return token;
 };
 
-// const verifyToken = (token) => {
-//   try {
-//     const userObj = jwt.verify(token, JWT_SECRET);
-//     return { isValidToken: true, userObj };
-//   } catch (error) {
-//     return false;
-//   }
-// };
+const verifyToken = (token) => {
+  try {
+     jwt.verify(token, JWT_SECRET);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const isTokenValid = async (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ message: 'Token not found' });
+  const isValidToken = verifyToken(token);
+  if (!isValidToken) return res.status(401).json({ message: 'Expired or invalid token' });
+  return next();
+};
 
 module.exports = {
   tokenGenerate,
-  // verifyToken,
+  isTokenValid,
 };

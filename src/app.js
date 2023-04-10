@@ -3,8 +3,8 @@ const { userLogin } = require('./controllers/UserLogin.controller');
 const { createUser, getAllUsers } = require('./controllers/User.controller');
 const { isNameValid, isEmailValid, 
   isPasswordValid, isEmailExists } = require('./middlewares/UserValidations');
-// const { verifyToken } = require('./middlewares/Auth');
-// ...
+
+const { isTokenValid } = require('./middlewares/Auth');
 
 const app = express();
 
@@ -17,7 +17,7 @@ app.use(express.json());
 
 app.post('/login', userLogin);
 app.post('/user', isNameValid, isEmailValid, isEmailExists, isPasswordValid, createUser);
-app.get('/user', getAllUsers);
+app.get('/user', isTokenValid, getAllUsers);
 
 // ...
 
