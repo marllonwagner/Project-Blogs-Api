@@ -30,7 +30,20 @@ const getAllUsers = async (_req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await service.getUserById(id, res);
+    if (user.message) return res.status(404).send(user);
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro interno' });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };
