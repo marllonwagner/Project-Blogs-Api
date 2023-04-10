@@ -12,6 +12,15 @@ name,
   return newName;
 };
 
+const getAllCateg = async () => {
+  const allCateg = await Category.findAll();
+  if (!allCateg.length) {
+    return ({ message: 'Nenhuma categoria encontrada' });
+  }
+  return allCateg;
+};
+
 module.exports = {
   createCateg,
+  getAllCateg,
 };

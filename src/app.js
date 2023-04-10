@@ -5,7 +5,7 @@ const { isNameValid, isEmailValid,
   isPasswordValid, isEmailExists } = require('./middlewares/UserValidations');
   const { isCatNameValid } = require('./middlewares/CategoryValidations');
 const { isTokenValid } = require('./middlewares/Auth');
-const { createCateg } = require('./controllers/Category.controller');
+const { createCateg, getAllCateg } = require('./controllers/Category.controller');
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.post('/user', isNameValid, isEmailValid, isEmailExists, isPasswordValid, cre
 app.post('/categories', isTokenValid, isCatNameValid, createCateg);
 app.get('/user/:id', isTokenValid, getUserById);
 app.get('/user', isTokenValid, getAllUsers);
+app.get('/categories', isTokenValid, getAllCateg);
 
 // ...
 

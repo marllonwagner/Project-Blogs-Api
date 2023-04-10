@@ -15,6 +15,18 @@ const createCateg = async (req, res) => {
   }
 };
 
+const getAllCateg = async (_req, res) => {
+  try {
+    const allCateg = await service.getAllCateg();
+    if (allCateg.message) return res.status(404).send(allCateg);
+
+    return res.status(200).json(allCateg);
+  } catch (error) {
+    return res.status(500).json({ message: 'Erro interno' });
+  }
+};
+
 module.exports = {
   createCateg,
+  getAllCateg,
 };
