@@ -20,6 +20,15 @@ displayName,
   return ({ token });
 };
 
+const getAllUsers = async () => {
+  const allUsers = await User.findAll();
+  if (!allUsers.length) {
+    return ({ message: 'Nenhum usuário encontrado' });
+  }
+  return allUsers;
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
 };
