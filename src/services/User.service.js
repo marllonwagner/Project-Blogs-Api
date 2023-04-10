@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const { tokenGenerate } = require('../middlewares/Auth');
 
 const createUser = async (
 displayName, 
@@ -15,7 +16,8 @@ displayName,
     return ({ message: 'Não foi possível criar um novo usuario' });
   }
 
-  return newUser;
+  const token = tokenGenerate(newUser.displayName, newUser.email, newUser.id);
+  return ({ token });
 };
 
 module.exports = {
