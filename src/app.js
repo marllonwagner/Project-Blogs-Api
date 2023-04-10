@@ -1,6 +1,7 @@
 const express = require('express');
 const { userLogin } = require('./controllers/UserLogin.controller');
-const { verifyToken } = require('./middlewares/Auth');
+const { createUser } = require('./controllers/User.controller');
+// const { verifyToken } = require('./middlewares/Auth');
 // ...
 
 const app = express();
@@ -12,7 +13,8 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 
-app.post('/login', userLogin, verifyToken);
+app.post('/login', userLogin);
+app.post('/user', createUser);
 
 // ...
 

@@ -8,16 +8,16 @@ const tokenGenerate = (email, name, id) => {
   return token;
 };
 
-const verifyToken = (token) => {
-  try {
-    const userObj = jwt.verify(token, JWT_SECRET);
-    return { isValidToken: true, userObj };
-  } catch (error) {
-    return false;
-  }
-};
+// const verifyToken = (token) => {
+//   try {
+//     const userObj = jwt.verify(token, JWT_SECRET);
+//     return { isValidToken: true, userObj };
+//   } catch (error) {
+//     return false;
+//   }
+// };
 
 module.exports = {
   tokenGenerate,
-  verifyToken,
+  // verifyToken,
 };
