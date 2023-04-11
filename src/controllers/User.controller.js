@@ -23,22 +23,21 @@ const getAllUsers = async (_req, res) => {
   try {
     const allUsers = await service.getAllUsers();
     if (allUsers.message) return res.status(404).send(allUsers);
-
     return res.status(200).json(allUsers);
   } catch (error) {
-    return res.status(500).json({ message: 'Erro interno' });
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
 const getUserById = async (req, res) => {
-  const { id } = req.params;
   try {
-    const user = await service.getUserById(id, res);
-    if (user.message) return res.status(404).send(user);
-
-    return res.status(200).json(user);
+    const { id } = req.params;
+    const { statusCode, response } = await service.getUserById(id);
+    return res.status(statusCode).json(response);
   } catch (error) {
-    return res.status(500).json({ message: 'Erro interno' });
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
