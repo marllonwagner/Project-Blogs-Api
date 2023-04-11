@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        foreignKey: true,
+        allowNull: false,
+        
       },
       title: DataTypes.STRING,
       content:DataTypes.STRING,

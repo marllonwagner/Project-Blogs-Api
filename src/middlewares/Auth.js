@@ -10,15 +10,14 @@ const tokenGenerate = (email, name, id) => {
 
 const verifyToken = (token) => {
   try {
-     jwt.verify(token, JWT_SECRET);
-    return true;
+   return jwt.verify(token, JWT_SECRET);
   } catch (error) {
     return false;
   }
 };
 
 const isTokenValid = async (req, res, next) => {
-  const token = req.header('Authorization');
+  const token = req.header('authorization');
   if (!token) return res.status(401).json({ message: 'Token not found' });
   const isValidToken = verifyToken(token);
   if (!isValidToken) return res.status(401).json({ message: 'Expired or invalid token' });
@@ -28,4 +27,5 @@ const isTokenValid = async (req, res, next) => {
 module.exports = {
   tokenGenerate,
   isTokenValid,
+  verifyToken,
 };
