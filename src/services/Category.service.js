@@ -15,9 +15,9 @@ name,
 const getAllCateg = async () => {
   const allCateg = await Category.findAll();
   if (!allCateg.length) {
-    return ({ message: 'Nenhuma categoria encontrada' });
+    return { statusCode: 404, response: { message: 'Nenhuma categoria encontrada' } };
   }
-  return allCateg;
+  return { statusCode: 200, response: allCateg };
 };
 
 module.exports = {

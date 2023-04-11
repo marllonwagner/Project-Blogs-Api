@@ -1,23 +1,13 @@
 const { User } = require('../models');
 const { tokenGenerate } = require('../middlewares/Auth');
 
-const createUser = async (
-displayName, 
-  email,
-  password, 
-  image,
-) => {
-  const newUser = await User.create({ displayName, 
-    email,
-    password, 
-    image });
-
+const createUser = async (reqBody) => {
+  const newUser = await User.create(reqBody);
   if (!newUser) {
-    return ({ message: 'Não foi possível criar um novo usuario' });
+    return { statusCode: 400, response: { message: 'Não foi possível criar um novo usuario' } };
   }
-
   const token = tokenGenerate(newUser.displayName, newUser.email, newUser.id);
-  return ({ token });
+  return { statusCode: 201, response: { token } };
 };
 
 const getAllUsers = async () => {
