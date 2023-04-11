@@ -21,9 +21,8 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (_req, res) => {
   try {
-    const allUsers = await service.getAllUsers();
-    if (allUsers.message) return res.status(404).send(allUsers);
-    return res.status(200).json(allUsers);
+    const { statusCode, response } = await service.getAllUsers();
+    return res.status(statusCode).json(response);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error' });

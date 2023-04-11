@@ -22,12 +22,14 @@ displayName,
 
 const getAllUsers = async () => {
   const allUsers = await User.findAll({
-    attributes: { exclude: ['password'] },
+    attributes: { exclude: 'password' },
   });
   if (!allUsers.length) {
-    return ({ message: 'Nenhum usuário encontrado' });
-  }
-  return allUsers;
+ return { statusCode: 404, 
+    response: { message: 'Nenhum usuário encontrado' } }; 
+}
+
+  return { statusCode: 200, response: allUsers };
 };
 
 const getUserById = async (id) => {
