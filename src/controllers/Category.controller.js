@@ -3,15 +3,13 @@ const service = require('../services/Category.service');
 const createCateg = async (req, res) => {
   const { name } = req.body;
   try {
-    const newName = await service.createCateg(
+    const { statusCode, response } = await service.createCateg(
   name,
     );
-
-    if (newName.message) return res.status(404).send(newName);
-
-    return res.status(201).json(newName);
+    return res.status(statusCode).json(response);
   } catch (error) {
-    return res.status(500).json({ message: 'Erro interno' });
+    console.log(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 

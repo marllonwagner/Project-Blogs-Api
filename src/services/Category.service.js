@@ -6,10 +6,11 @@ name,
   const newName = await Category.create({ name });
 
   if (!newName) {
-    return ({ message: 'Não foi possível criar um novo nome de categoria' });
+    return { statusCode: 404, 
+      reponse: { message: 'Não foi possível criar um novo nome de categoria' } }; 
   }
 
-  return newName;
+  return { statusCode: 201, response: newName };
 };
 
 const getAllCateg = async () => {
