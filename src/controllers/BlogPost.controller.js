@@ -19,6 +19,17 @@ authorization,
   }
 };
 
+const getAllPosts = async (_req, res) => {
+  try {
+    const { statusCode, response } = await service.getAllPosts();
+    return res.status(statusCode).json(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   createBlogPost,
+  getAllPosts,
 };

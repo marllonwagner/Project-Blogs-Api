@@ -1,5 +1,5 @@
 const { verifyToken } = require('../middlewares/Auth');
-const { BlogPost, PostCategory } = require('../models');
+const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const createBlogPost = async (title, content, categoryIds, authorization) => {
   const categIds = categoryIds;
@@ -11,6 +11,24 @@ const createBlogPost = async (title, content, categoryIds, authorization) => {
   return { statusCode: 201, response: newPost };
 };
 
+const getAllPosts = async () => {
+  const posts = await BlogPost.findAll({
+    include: [{
+      model: User,
+      as: 'user',
+      attributes: { exclude: 'password' },
+    },
+    { model: Category,
+    as: 'categories',
+    through: { attributes: [] },
+  },
+    ],
+  });
+  console.log(posts[0]);
+  return { statusCode: 200, response: posts };
+};
+
 module.exports = {
   createBlogPost,
+  getAllPosts,
 };
