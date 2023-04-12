@@ -40,8 +40,22 @@ const getPostById = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;
+  const { authorization } = req.headers;
+  try {
+    const { statusCode, response } = await service.updatePost(id, title, content, authorization);
+    return res.status(statusCode).json(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   createBlogPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };

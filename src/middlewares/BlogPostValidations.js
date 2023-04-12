@@ -28,8 +28,28 @@ const isCategIdValid = async (req, res, next) => {
   return next();
 };
 
+// const getAllPosts = async () => {
+//   const categs = await BlogPost.findAll();
+//   const categIds = categs.map((c) => c.id);
+//   return categIds;
+// };
+
+const isPostIdValid = async (req, res, next) => {
+  const { id } = req.params;
+  // const ids = await getAllPosts();
+
+    if (id === undefined) {
+      return res.status(400).json({
+        message: 'Post not found',
+      });
+  }
+  
+  return next();
+};
+
 module.exports = {
   isFieldsFilled,
   getAllCategs,
   isCategIdValid,
+  isPostIdValid,
 };

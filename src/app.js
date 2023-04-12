@@ -6,8 +6,10 @@ const { isNameValid, isEmailValid,
   const { isCatNameValid } = require('./middlewares/CategoryValidations');
 const { isTokenValid } = require('./middlewares/Auth');
 const { createCateg, getAllCateg } = require('./controllers/Category.controller');
-const { createBlogPost, getAllPosts, getPostById } = require('./controllers/BlogPost.controller');
-const { isFieldsFilled, isCategIdValid } = require('./middlewares/BlogPostValidations');
+const { createBlogPost, getAllPosts,
+   getPostById, updatePost } = require('./controllers/BlogPost.controller');
+const { isFieldsFilled, 
+  isCategIdValid, isPostIdValid } = require('./middlewares/BlogPostValidations');
 
 const app = express();
 
@@ -28,6 +30,8 @@ app.get('/user', isTokenValid, getAllUsers);
 app.get('/categories', isTokenValid, getAllCateg);
 app.get('/post/:id', isTokenValid, getPostById);
 app.get('/post', isTokenValid, getAllPosts);
+
+app.put('/post/:id', isFieldsFilled, isPostIdValid, isTokenValid, updatePost);
 // ...
 
 // É importante exportar a constante `app`,
