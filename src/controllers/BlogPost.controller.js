@@ -67,10 +67,22 @@ const deletePost = async (req, res) => {
   }
 };
 
+const getPostSearch = async (req, res) => {
+  const { q } = req.query;
+  try {
+    const { statusCode, response } = await service.getPostSearch(q);
+    return res.status(statusCode).json(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: INTERNAL_ERROR });
+  }
+};
+
 module.exports = {
   createBlogPost,
   getAllPosts,
   getPostById,
   updatePost,
   deletePost,
+  getPostSearch,
 };

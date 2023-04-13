@@ -7,7 +7,8 @@ const { isNameValid, isEmailValid,
 const { isTokenValid } = require('./middlewares/Auth');
 const { createCateg, getAllCateg } = require('./controllers/Category.controller');
 const { createBlogPost, getAllPosts,
-   getPostById, updatePost, deletePost } = require('./controllers/BlogPost.controller');
+   getPostById, updatePost, 
+   deletePost, getPostSearch } = require('./controllers/BlogPost.controller');
 const { isFieldsFilled, 
   isCategIdValid, isPostIdValid } = require('./middlewares/BlogPostValidations');
 
@@ -25,6 +26,7 @@ app.post('/user', isNameValid, isEmailValid, isEmailExists, isPasswordValid, cre
 app.post('/categories', isTokenValid, isCatNameValid, createCateg);
 app.post('/post', isFieldsFilled, isCategIdValid, isTokenValid, createBlogPost);
 
+app.get('/post/search', isTokenValid, getPostSearch);
 app.get('/user/:id', isTokenValid, getUserById);
 app.get('/user', isTokenValid, getAllUsers);
 app.get('/categories', isTokenValid, getAllCateg);

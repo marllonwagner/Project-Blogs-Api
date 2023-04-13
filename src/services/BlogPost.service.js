@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { verifyToken } = require('../middlewares/Auth');
 const { BlogPost, PostCategory, Category, User } = require('../models');
 
@@ -23,7 +24,6 @@ const getAllPosts = async () => {
   },
     ],
   });
-  console.log(posts[0]);
   return { statusCode: 200, response: posts };
 };
 
@@ -88,10 +88,25 @@ const deletePost = async (postId, authorization) => {
   }
 };
 
+const getPostSearch = async (q) => {
+  if (q === '') {
+    const { response } = await getAllPosts();
+    return { statusCode: 200, response };
+  }
+  const post = await BlogPost.findAll({
+    where: { [Op.or]: [{ title: { [Op.like]: q } },
+      { content: { [Op.like]: q } }] },
+    include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
+    { model: Category, as: 'categories', through: { attributes: [] } }],
+  });
+  return { statusCode: 200, response: post };
+};
+
 module.exports = {
   createBlogPost,
   getAllPosts,
   getPostById,
   updatePost,
   deletePost,
+  getPostSearch,
 };
