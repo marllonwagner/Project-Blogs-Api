@@ -6,11 +6,10 @@ const { auth, userValidations } = require('../middlewares');
 
 router.post(
 '/', 
-auth.isTokenValid, 
 userValidations.isNameValid, 
 userValidations.isEmailValid,
-userValidations.isEmailExists, 
 userValidations.isPasswordValid, 
+userValidations.isEmailExists, 
 userController.createUser,
 );
 
