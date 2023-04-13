@@ -7,7 +7,7 @@ const { isNameValid, isEmailValid,
 const { isTokenValid } = require('./middlewares/Auth');
 const { createCateg, getAllCateg } = require('./controllers/Category.controller');
 const { createBlogPost, getAllPosts,
-   getPostById, updatePost } = require('./controllers/BlogPost.controller');
+   getPostById, updatePost, deletePost } = require('./controllers/BlogPost.controller');
 const { isFieldsFilled, 
   isCategIdValid, isPostIdValid } = require('./middlewares/BlogPostValidations');
 
@@ -32,6 +32,8 @@ app.get('/post/:id', isTokenValid, getPostById);
 app.get('/post', isTokenValid, getAllPosts);
 
 app.put('/post/:id', isFieldsFilled, isPostIdValid, isTokenValid, updatePost);
+
+app.delete('/post/:id', isPostIdValid, isTokenValid, deletePost);
 // ...
 
 // É importante exportar a constante `app`,

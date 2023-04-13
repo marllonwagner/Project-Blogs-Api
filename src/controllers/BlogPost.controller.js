@@ -1,5 +1,7 @@
 const service = require('../services/BlogPost.service');
 
+const INTERNAL_ERROR = 'Internal server error';
+
 const createBlogPost = async (req, res) => {
   // const { title, content,
   //   categoryIds } = req.body;
@@ -15,7 +17,7 @@ authorization,
     return res.status(statusCode).json(response);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_ERROR });
   }
 };
 
@@ -25,7 +27,7 @@ const getAllPosts = async (_req, res) => {
     return res.status(statusCode).json(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_ERROR });
   }
 };
 
@@ -36,7 +38,7 @@ const getPostById = async (req, res) => {
     return res.status(statusCode).json(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_ERROR });
   }
 };
 
@@ -49,7 +51,19 @@ const updatePost = async (req, res) => {
     return res.status(statusCode).json(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: INTERNAL_ERROR });
+  }
+};
+
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const { authorization } = req.headers;
+  try {
+    const { statusCode, response } = await service.deletePost(id, authorization);
+    return res.status(statusCode).json(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: INTERNAL_ERROR });
   }
 };
 
@@ -58,4 +72,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };

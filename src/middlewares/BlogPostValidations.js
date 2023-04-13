@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category, BlogPost } = require('../models');
 
 const isFieldsFilled = (req, res, next) => {
   const { title, content, categoryIds } = req.body;
@@ -28,19 +28,18 @@ const isCategIdValid = async (req, res, next) => {
   return next();
 };
 
-// const getAllPosts = async () => {
-//   const categs = await BlogPost.findAll();
-//   const categIds = categs.map((c) => c.id);
-//   return categIds;
-// };
+const getAllPosts = async () => {
+  const categs = await BlogPost.findAll();
+  const categIds = categs.map((c) => c.id);
+  return categIds;
+};
 
 const isPostIdValid = async (req, res, next) => {
   const { id } = req.params;
-  // const ids = await getAllPosts();
-
-    if (id === undefined) {
-      return res.status(400).json({
-        message: 'Post not found',
+  const ids = await getAllPosts();
+    if (!(ids.includes(Number(id)))) {
+      return res.status(404).json({
+        message: 'Post does not exist',
       });
   }
   

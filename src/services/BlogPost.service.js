@@ -5,7 +5,6 @@ const createBlogPost = async (title, content, categoryIds, authorization) => {
   const categIds = categoryIds;
   const { id } = verifyToken(authorization);
   const newPost = await BlogPost.create({ title, content, userId: id });
-
   await Promise.all(categIds.map((categ) => PostCategory
   .create({ postId: newPost.id, categoryId: categ })));
   return { statusCode: 201, response: newPost };
@@ -46,25 +45,43 @@ const getPostById = async (id) => {
   return { statusCode: 200, response: post };
 };
 
-const up1 = async (postId, title, content) => {
+const excuteUpdate = async (postId, title, content) => {
   await BlogPost.update(
     { title, content },
     { where: { id: postId } },
   );
 };
 
+const postUpdated = async (postId) => {
+  const updatedPost = await BlogPost
+  .findOne({ where: { id: postId },
+include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
+  { model: Category, as: 'categories', through: { attributes: [] } }] });
+  return { statusCode: 200, response: updatedPost };
+};
+
 const updatePost = async (postId, title, content, authorization) => {
   const { id } = verifyToken(authorization);
   try {
     if (id === Number(postId)) {
-      await up1(postId, title, content);
-      const updatedPost2 = await BlogPost
-      .findOne({ where: { id: postId },
-  include: [{ model: User, as: 'user', attributes: { exclude: 'password' } },
-      { model: Category, as: 'categories', through: { attributes: [] } }] });
-      return { statusCode: 200, response: updatedPost2 };
+      await excuteUpdate(postId, title, content);
+      return postUpdated(postId);
     } 
       return { statusCode: 401, response: { message: 'Unauthorized user' } };
+  } catch (error) {
+    console.error(error);
+    return { statusCode: 500, response: { message: 'Erro ao atualizar o post' } };
+  }
+};
+
+const deletePost = async (postId, authorization) => {
+  const { id } = verifyToken(authorization);
+  const findPos = await BlogPost
+  .findOne({ where: { id: postId } });
+  try {
+  if (id !== findPos.userId) return { statusCode: 401, response: { message: 'Unauthorized user' } };
+      await BlogPost.destroy({ where: { id: postId } });
+      return { statusCode: 204, response: [] };
   } catch (error) {
     console.error(error);
     return { statusCode: 500, response: { message: 'Erro ao atualizar o post' } };
@@ -76,4 +93,5 @@ module.exports = {
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };

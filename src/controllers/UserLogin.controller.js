@@ -2,6 +2,7 @@ const service = require('../services/UserLogin.service');
 
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const reponse = await service.userLogin(email, password);
     if (reponse.message) return res.status(400).send(reponse);
