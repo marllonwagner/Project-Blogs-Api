@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { tokenGenerate } = require('../middlewares/Auth');
+const { tokenGenerate, verifyToken } = require('../middlewares/Auth');
 
 const createUser = async (reqBody) => {
   const newUser = await User.create(reqBody);
@@ -32,8 +32,23 @@ const getUserById = async (id) => {
   return { statusCode: 200, response: user };
 };
 
+const deleteMe = async (authorization) => {
+  const { id } = verifyToken(authorization);
+  const findMe = await User
+  .findOne({ where: { id } });
+  try {
+  if (id !== findMe.id) return { statusCode: 401, response: { message: 'Unauthorized user' } };
+      await User.destroy({ where: { id: findMe.id } });
+      return { statusCode: 204, response: [] };
+  } catch (error) {
+    console.error(error);
+    return { statusCode: 500, response: { message: 'Erro ao atualizar o post' } };
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteMe,
 };

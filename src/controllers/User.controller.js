@@ -34,8 +34,20 @@ const getUserById = async (req, res) => {
   }
 };
 
+const deleteMe = async (req, res) => {
+  const { authorization } = req.headers;
+  try {
+    const { statusCode, response } = await service.deleteMe(authorization);
+    return res.status(statusCode).json(response);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteMe,
 };

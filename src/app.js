@@ -1,6 +1,6 @@
 const express = require('express');
 const { userLogin } = require('./controllers/UserLogin.controller');
-const { createUser, getAllUsers, getUserById } = require('./controllers/User.controller');
+const { createUser, getAllUsers, getUserById, deleteMe } = require('./controllers/User.controller');
 const { isNameValid, isEmailValid, 
   isPasswordValid, isEmailExists } = require('./middlewares/UserValidations');
   const { isCatNameValid } = require('./middlewares/CategoryValidations');
@@ -34,6 +34,7 @@ app.get('/post', isTokenValid, getAllPosts);
 app.put('/post/:id', isFieldsFilled, isPostIdValid, isTokenValid, updatePost);
 
 app.delete('/post/:id', isPostIdValid, isTokenValid, deletePost);
+app.delete('/user/me', isTokenValid, deleteMe);
 // ...
 
 // É importante exportar a constante `app`,
