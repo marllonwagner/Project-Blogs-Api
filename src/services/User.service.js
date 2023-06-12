@@ -34,8 +34,7 @@ const getUserById = async (id) => {
 
 const deleteMe = async (authorization) => {
   const { id } = verifyToken(authorization);
-  const findMe = await User
-  .findOne({ where: { id } });
+  const findMe = await User.findOne({ where: { id } });
   try {
   if (id !== findMe.id) return { statusCode: 401, response: { message: 'Unauthorized user' } };
       await User.destroy({ where: { id: findMe.id } });
